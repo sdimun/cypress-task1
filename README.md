@@ -7,6 +7,10 @@ Fork this repository and complete task.
 Create one simple end-to-end test for user profile creation (Běžný profil).
 Output should be repository with setup guide in README.
 
+### Preconditions
+
+User must create account manually via registration.
+
 ## Criteria
 
 - **Functionality** - test successfully creates and verifies profile
