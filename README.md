@@ -1,26 +1,9 @@
 # Prima+ Interview Task
 
-Fork this repository and complete task.
-
-## Task
-
 Create one simple end-to-end test for user profile creation (Běžný profil).
 Output should be repository with setup guide in README.
 
-### Preconditions
+## Credentials
 
-User must create account manually via registration.
+For the automated test to function correctly, it is necessary to create a **credentials.json** file in fixtures folder. Credentials file should looks similar as credentials.example.json, but must contains the correct credentials for some registered account in iPrima.
 
-## Criteria
-
-- **Functionality** - test successfully creates and verifies profile
-- **Code Quality** - clean, readable and maintainable code
-- **Cleanup** - proper cleanup after test
-
-## Time Limit
-
-Recommended implementation time: **60 minutes**
-
----
-
-**Good luck! 🚀**
