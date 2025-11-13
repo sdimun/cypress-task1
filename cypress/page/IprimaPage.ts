@@ -1,4 +1,6 @@
 import GatewayApi from "../api/GatewayApi";
+import '../support/commands'
+
 
 class IprimaPage {
   BASE_URL: string;
@@ -11,6 +13,9 @@ class IprimaPage {
     home: {
       buttonAcceptCookies: () => cy.get('#didomi-notice-agree-button'),
       linkSignIn: () => cy.get('.sign-in'),
+      buttonProfile: () => cy.get('.profile').eq(0),
+      currentProfileName: () => cy.get('.sidebar-header p.profile-name'),
+
     },
     login: {
       inputEmail: () => cy.get('input[type="email"]'),
@@ -19,6 +24,17 @@ class IprimaPage {
     },
     profile: {
       buttonProfile: (profile: string) => cy.contains('button', profile),
+      buttonCreateBasicProfile: () => cy.get('.add-profile > :nth-child(1)'),
+      inputProfileName: () => cy.get('.input.with-label'),
+      selectGender: () => cy.get('.form-fields .select').eq(0).find('.select-toggle'),
+      selectDateOfBirth: () => cy.get('.form-fields .select').eq(1).find('.select-toggle'),
+      buttonCreateProfile: () => cy.get('.button.primary'),
+      buttonEditProfiles: () => cy.get('.button.transparent.edit'),
+      buttonRemoveProfile: () => cy.get('a.form-link').eq(3)
+    },
+    sideBar: {
+      buttonEditProfile: () => cy.get('.link.edit.arrow'),
+      buttonClose: () => cy.get('.close-button'),
     }
   };
 
@@ -62,7 +78,48 @@ class IprimaPage {
     cy.wait('@POST_Request');
     cy.url().should('eq', this.BASE_URL);
   }
+  /**
+   * Create basic profile function
+   */
+  createBasicProfile(profileName: string){
+    this.elements.home.buttonProfile().click();
+    this.elements.sideBar.buttonEditProfile().click();
+    this.elements.profile.buttonCreateBasicProfile().click();
+
+    this.elements.profile.inputProfileName().type(profileName);
+    cy.selectDropdown('Pohlaví','Muž');
+    cy.selectDropdown('Rok narození','1999');
+    
+    this.elements.profile.buttonCreateProfile().click();
+    
+    this.elements.profile.buttonProfile(profileName).should('be.visible').and('be.enabled').click();
+  }
   
+  /**
+   * Check newly created profile from home page
+   */
+  checkCreatedProfile(profileName: string){
+    this.elements.home.buttonProfile().click();
+    this.elements.home.currentProfileName().should('have.text', profileName);
+    this.elements.sideBar.buttonClose().click();
+  }
+
+  /**
+   * Remove newly created profile
+   */
+  removeCreatedProfile(profileName: string){
+    this.elements.home.buttonProfile().click();
+    this.elements.sideBar.buttonEditProfile().click();
+    this.elements.profile.buttonEditProfiles().click();
+    this.elements.profile.buttonProfile(profileName).click();
+
+    this.elements.profile.buttonRemoveProfile().click();
+    cy.get('.ui-modal-buttons > .default').should('be.visible').and('be.enabled').click()
+
+    
+    this.elements.profile.buttonProfile(profileName).should('not.exist')
+  }
+
 }
 
 export default new IprimaPage();

@@ -5,8 +5,8 @@ class GatewayApi {
 
     constructor() {
         this.BASE_URL = 'https://gateway-api.prod.iprima.cz/json-rpc/';
-        this.defaultEmail = '';
-        this.defaultPassword = '';
+        this.defaultEmail = 's.dimun3@gmail.com';
+        this.defaultPassword = 'test123';
     }
     
     intercepts = {
